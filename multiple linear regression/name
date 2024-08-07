@@ -1,1 +1,189 @@
 
+Open In Colab
+
+!git clone "https://github.com/AsharZafar/ML.git"
+     
+Cloning into 'ML'...
+remote: Enumerating objects: 14, done.
+remote: Counting objects: 100% (14/14), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 14 (delta 2), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (14/14), 26.65 KiB | 2.96 MiB/s, done.
+Resolving deltas: 100% (2/2), done.
+
+import pandas as pd
+import numpy as np
+from sklearn import linear_model
+     
+
+df= pd.read_csv("/content/ML/multiple linear regression/homeprices.csv")
+df.head()
+     
+area	bedrooms	age	price
+0	2600	3.0	20	550000
+1	3000	4.0	15	565000
+2	3200	NaN	18	610000
+3	3600	3.0	30	595000
+4	4000	5.0	8	760000
+
+import math
+df1=df.copy()
+     
+
+#dealing with nan values
+
+median_of_bedrooms=math.floor(df.bedrooms.median())
+median_of_bedrooms
+     
+4
+
+df1.bedrooms.fillna(median_of_bedrooms,inplace=True)
+     
+
+df1.head()
+     
+area	bedrooms	age	price
+0	2600	3.0	20	550000
+1	3000	4.0	15	565000
+2	3200	4.0	18	610000
+3	3600	3.0	30	595000
+4	4000	5.0	8	760000
+
+reg=linear_model.LinearRegression()
+X = df1[['area', 'bedrooms', 'age']]
+reg.fit(X,df1.price)
+
+     
+LinearRegression()
+In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook.
+On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.
+
+reg.coef_
+     
+array([  112.06244194, 23388.88007794, -3231.71790863])
+
+reg.predict([[3000,3,40]])
+     
+/usr/local/lib/python3.10/dist-packages/sklearn/base.py:465: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names
+  warnings.warn(
+array([498408.25158031])
+task
+
+!git clone "https://github.com/AsharZafar/ML.git"
+     
+fatal: destination path 'ML' already exists and is not an empty directory.
+
+from word2number import w2n
+     
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+<ipython-input-76-546a158f29fa> in <cell line: 1>()
+----> 1 from word2number import w2n
+
+ModuleNotFoundError: No module named 'word2number'
+
+---------------------------------------------------------------------------
+NOTE: If your import is failing due to a missing package, you can
+manually install dependencies using either !pip or !apt.
+
+To view examples of installing some common dependencies, click the
+"Open Examples" button below.
+---------------------------------------------------------------------------
+
+df2=pd.read_csv("/content/ML/multiple linear regression/hiring.csv")
+df2.head()
+     
+experience	test_score(out of 10)	interview_score(out of 10)	salary($)
+0	NaN	8.0	9	50000
+1	NaN	8.0	6	45000
+2	five	6.0	7	60000
+3	two	10.0	10	65000
+4	seven	9.0	6	70000
+
+df_task=df2.copy()
+df_task.replace(np.nan,'zero',inplace=True)
+df_task.head()
+     
+experience	test_score(out of 10)	interview_score(out of 10)	salary($)
+0	zero	8.0	9	50000
+1	zero	8.0	6	45000
+2	five	6.0	7	60000
+3	two	10.0	10	65000
+4	seven	9.0	6	70000
+
+df_task['experience'] = pd.to_numeric(df_task['experience'], errors='coerce')
+     
+
+df_task.head()
+     
+experience	test_score(out of 10)	interview_score(out of 10)	salary($)
+0	NaN	8.0	9	50000
+1	NaN	8.0	6	45000
+2	NaN	6.0	7	60000
+3	NaN	10.0	10	65000
+4	NaN	9.0	6	70000
+
+reg=linear_model.LinearRegression()
+X = df_task[["experience",'test_score(out of 10)','interview_score(out of 10)']]
+     
+
+Y=df_task["salary($)"]
+     
+
+reg.fit(X,Y)
+     
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+<ipython-input-69-3a65713006f7> in <cell line: 1>()
+----> 1 reg.fit(X,Y)
+
+/usr/local/lib/python3.10/dist-packages/sklearn/base.py in wrapper(estimator, *args, **kwargs)
+   1150                 )
+   1151             ):
+-> 1152                 return fit_method(estimator, *args, **kwargs)
+   1153 
+   1154         return wrapper
+
+/usr/local/lib/python3.10/dist-packages/sklearn/linear_model/_base.py in fit(self, X, y, sample_weight)
+    676         accept_sparse = False if self.positive else ["csr", "csc", "coo"]
+    677 
+--> 678         X, y = self._validate_data(
+    679             X, y, accept_sparse=accept_sparse, y_numeric=True, multi_output=True
+    680         )
+
+/usr/local/lib/python3.10/dist-packages/sklearn/base.py in _validate_data(self, X, y, reset, validate_separately, cast_to_ndarray, **check_params)
+    620                 y = check_array(y, input_name="y", **check_y_params)
+    621             else:
+--> 622                 X, y = check_X_y(X, y, **check_params)
+    623             out = X, y
+    624 
+
+/usr/local/lib/python3.10/dist-packages/sklearn/utils/validation.py in check_X_y(X, y, accept_sparse, accept_large_sparse, dtype, order, copy, force_all_finite, ensure_2d, allow_nd, multi_output, ensure_min_samples, ensure_min_features, y_numeric, estimator)
+   1144         )
+   1145 
+-> 1146     X = check_array(
+   1147         X,
+   1148         accept_sparse=accept_sparse,
+
+/usr/local/lib/python3.10/dist-packages/sklearn/utils/validation.py in check_array(array, accept_sparse, accept_large_sparse, dtype, order, copy, force_all_finite, ensure_2d, allow_nd, ensure_min_samples, ensure_min_features, estimator, input_name)
+    913                     array = xp.astype(array, dtype, copy=False)
+    914                 else:
+--> 915                     array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)
+    916             except ComplexWarning as complex_warning:
+    917                 raise ValueError(
+
+/usr/local/lib/python3.10/dist-packages/sklearn/utils/_array_api.py in _asarray_with_order(array, dtype, order, copy, xp)
+    378             array = numpy.array(array, order=order, dtype=dtype)
+    379         else:
+--> 380             array = numpy.asarray(array, order=order, dtype=dtype)
+    381 
+    382         # At this point array is a NumPy ndarray. We convert it to an array
+
+/usr/local/lib/python3.10/dist-packages/pandas/core/generic.py in __array__(self, dtype)
+   2082     def __array__(self, dtype: npt.DTypeLike | None = None) -> np.ndarray:
+   2083         values = self._values
+-> 2084         arr = np.asarray(values, dtype=dtype)
+   2085         if (
+   2086             astype_is_view(values.dtype, arr.dtype)
+
+ValueError: could not convert string to float: 'zero'
